@@ -40,16 +40,29 @@ if (not os.path.exists(outputDir)):
    print 'Creating output dir:', outputDir
    os.mkdir(outputDir)
 
+dfdir = "/mnt/t3nfs01/data01/shome/mdonega/dataMC/MTR/"
+dfh5 = ""
+if sEBEE == "EB" :
+   dfh5 = "df_" + dataMC + "_" + str(startEvt) + "-" + str(stopEvt) + "_14442ScEtaandScEta14442.h5"
+elif sEBEE == "EE" :
+   dfh5 = "df_" + dataMC + "_" + str(startEvt) + "-" + str(stopEvt) + "_ScEta157or157ScEta.h5"
+else:
+   dfh5 = "df_" + dataMC + "_" + str(startEvt) + "-" + str(stopEvt) + ".h5"
+
+if not(os.path.exists(dfdir+dfh5)):
+   print "Error: " + dfdir + dfh5 + " does not exist"
+   sys.exit()
+
 if dataMC == "data":
    #qr.loadDF("/mnt/t3nfs01/data01/shome/mdonega/lxplus/work/CMSSW_8_0_26_patch1/src/diphotons/Analysis/macros/double_ele_v9_moriond17_mc/",
    #          "cicNoSigmaIetaIeta/trees/",
    #          ["Data_13TeV_EBHighR9", "Data_13TeV_EBLowR9", "Data_13TeV_EEHighR9", "Data_13TeV_EELowR9" ],
    #          startEvt, stopEvt, 12345)
    # to reduce memory consuption just load the locally pre-made h5 file
-   qr.loadDFh5("/mnt/t3nfs01/data01/shome/mdonega/dataMC/MTR/df_data_0-2000000.h5", startEvt, stopEvt)
+   qr.loadDFh5(dfdir+dfh5, startEvt, stopEvt)
    for q in quantiles:
       # qr.trainQuantile(Y, q, outputDir, maxDepth = imaxDepth, minLeaf = iminLeaf)
-      qr.trainQuantile(Y, q, outputDir, EBEE = sEBEE, maxDepth = imaxDepth, minLeaf = iminLeaf, useWeights=True)
+      qr.trainQuantile(Y, q, outputDir, EBEE = sEBEE, maxDepth = imaxDepth, minLeaf = iminLeaf, useWeights=False)
 
 elif dataMC == "mc":
    #qr.loadDF("/mnt/t3nfs01/data01/shome/mdonega/lxplus/work/CMSSW_8_0_26_patch1/src/diphotons/Analysis/macros/double_ele_v9_moriond17_mc/",
@@ -57,13 +70,9 @@ elif dataMC == "mc":
    #          ["DYJetsToLL_13TeV_EBHighR9", "DYJetsToLL_13TeV_EBLowR9", "DYJetsToLL_13TeV_EEHighR9", "DYJetsToLL_13TeV_EELowR9" ],
    #          startEvt, stopEvt, 12345)
    # to reduce memory consuption just load the locally pre-made h5 file
-   qr.loadDFh5("/mnt/t3nfs01/data01/shome/mdonega/dataMC/MTR/df_mc_0-2000000.h5", startEvt, stopEvt)   
+   qr.loadDFh5(dfdir+dfh5, startEvt, stopEvt)   
    for q in quantiles:
       # qr.trainQuantile(Y, q, outputDir, maxDepth = imaxDepth, minLeaf = iminLeaf)
-      qr.trainQuantile(Y, q, outputDir, EBEE = sEBEE, maxDepth = imaxDepth, minLeaf = iminLeaf, useWeights=True)
+      qr.trainQuantile(Y, q, outputDir, EBEE = sEBEE, maxDepth = imaxDepth, minLeaf = iminLeaf, useWeights=False)
       
 else: print " ERROR: choose data or mc"
-
-
-
-    

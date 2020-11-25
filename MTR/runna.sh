@@ -8,14 +8,23 @@ do
     for i in `seq 1 9`;
     do
 	q=`echo "$k*$i"|bc`	
+
+	# EB + EE 
 	qsub jobba.sh "mc"   $var $q 0 2000000 3 9 "" -q short.q
 	qsub jobba.sh "data" $var $q 0 2000000 3 9 "" -q short.q
 
-	# qsub jobba.sh "mc"   $var $q 0 2000000 3 9 "EB" -q short.q
-	# qsub jobba.sh "mc"   $var $q 0 2000000 3 9 "EE" -q short.q
-	# qsub jobba.sh "data" $var $q 0 2000000 3 9 "EB" -q short.q
-	# qsub jobba.sh "data" $var $q 0 2000000 3 9 "EE" -q short.q	 
+#	# EB 
+#	qsub jobba.sh "mc"   $var $q 0 2000000 3 9 "EB" -q short.q
+#	qsub jobba.sh "data" $var $q 0 2000000 3 9 "EB" -q short.q
+#
+#	# EE 
+#	qsub jobba.sh "mc"   $var $q 0 2000000 3 9 "EE" -q short.q
+#	qsub jobba.sh "data" $var $q 0 828516  3 9 "EE" -q short.q	 
 
    done
 done
 
+
+
+
+ 
